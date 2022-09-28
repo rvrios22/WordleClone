@@ -124,18 +124,16 @@ nav h1 {
 }
 
 .gameOver{
-  margin-bottom: 4.25em;
+  margin-bottom: 1.62em;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.25em;
 }
+
 #error {
   animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;
-}
-
-.popUp-overlay{
-  background-color: #606060;
-  color: #61534e;
 }
 
 @keyframes shake {

@@ -2,7 +2,7 @@ import './App.css';
 import Keyboard from './components/Keyboard';
 import Board from './components/Board';
 import GameOver from './components/GameOver';
-import swal from 'sweetalert'
+import Swal from 'sweetalert2';
 import { boardDefault, generateWordSet } from './Words'
 import { createContext, useEffect, useState } from 'react';
 
@@ -15,7 +15,7 @@ function App() {
   const [disabledLetters, setDisabledLetters] = useState([])
   const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false })
   const [correctWord, setCorrectWord] = useState('')
-  
+
 
 
   useEffect(() => {
@@ -52,23 +52,39 @@ function App() {
       setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 })
 
     } else {
-      alert('not in dictionary')
-      // swal({
-      //   title: "Oops, looks like that word is not in our library",
-      //   text: "Please type another word",
-      //   icon: "warning",
-      //   className: 'popUp'
-      // });
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+      })
+
+      Toast.fire({
+        icon: 'warning',
+        title: 'Oops, that word is not in our dictionary',
+        background: '#474747',
+        color: '#fff'
+      })
     }
 
     if (currWord.toLowerCase() === correctWord) {
-      setGameOver({gameOver: true, guessedWord: true})
+      setGameOver({ gameOver: true, guessedWord: true })
+      setTimeout(() => {
+        document.location.reload()
+      }, 2500)
     }
 
-    if(currAttempt.attempt === 5 && currWord.toLowerCase() === correctWord){
-      setGameOver({gameOver: true, guessedWord: true})
-    }else if(currAttempt.attempt === 5){
-      setGameOver({gameOver: true, guessedWord: false})
+    if (currAttempt.attempt === 5 && currWord.toLowerCase() === correctWord) {
+      setGameOver({ gameOver: true, guessedWord: true })
+      setTimeout(() => {
+        document.location.reload()
+      }, 2500)
+    } else if (currAttempt.attempt === 5) {
+      setGameOver({ gameOver: true, guessedWord: false })
+      setTimeout(() => {
+        document.location.reload()
+      }, 2500)
     }
   }
 
@@ -92,7 +108,9 @@ function App() {
         gameOver
       }}>
         <div className='game'>
+
           <Board />
+
           {gameOver.gameOver ? <GameOver className='gameOver' /> : <Keyboard />}
         </div>
       </AppContext.Provider>
