@@ -2,6 +2,7 @@ import './App.css';
 import Keyboard from './components/Keyboard';
 import Board from './components/Board';
 import GameOver from './components/GameOver';
+import swal from 'sweetalert'
 import { boardDefault, generateWordSet } from './Words'
 import { createContext, useEffect, useState } from 'react';
 
@@ -51,14 +52,22 @@ function App() {
       setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 })
 
     } else {
-      alert('Word Not Found')
+      alert('not in dictionary')
+      // swal({
+      //   title: "Oops, looks like that word is not in our library",
+      //   text: "Please type another word",
+      //   icon: "warning",
+      //   className: 'popUp'
+      // });
     }
 
-    if (currWord.toLocaleLowerCase() === correctWord) {
+    if (currWord.toLowerCase() === correctWord) {
       setGameOver({gameOver: true, guessedWord: true})
     }
 
-    if(currAttempt.attempt === 5){
+    if(currAttempt.attempt === 5 && currWord.toLowerCase() === correctWord){
+      setGameOver({gameOver: true, guessedWord: true})
+    }else if(currAttempt.attempt === 5){
       setGameOver({gameOver: true, guessedWord: false})
     }
   }
